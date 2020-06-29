@@ -22,20 +22,20 @@
 <% end %>
 
 <tr class="show-method total">
-  <% if shipment.shipping_method %>
+  <% if rate = shipment.selected_shipping_rate %>
     <td colspan="4">
-      <strong><%= shipment.shipping_method.name %></strong>
+      <strong><%= rate.name %></strong>
     </td>
-    <td class="total" align="center">
-      <span><%= shipment.display_cost %></span>
+    <td class="total text-center">
+      <%= number_to_currency(rate.cost) %>
     </td>
   <% else %>
     <td colspan='5'><%= Spree.t(:no_shipping_method_selected) %></td>
   <% end %>
 
-  <td class="actions">
-    <% if can? :update, shipment %>
-      <%= link_to_with_icon 'edit', Spree.t('actions.edit'), '#', :class => 'edit-method btn btn-primary btn-sm', :no_text => true, :data => {:action => 'edit'}, :title => Spree.t('edit') %>
+  <td class="actions text-center">
+    <% if( (can? :update, shipment) and !shipment.shipped?) %>
+      <%= link_to_with_icon 'edit', Spree.t('edit'), "javascript:;", class: 'edit-method with-tip btn btn-sm btn-primary', data: {action: 'edit'}, no_text: true %>
     <% end %>
   </td>
 </tr>
