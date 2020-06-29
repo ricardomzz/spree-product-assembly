@@ -20,6 +20,24 @@
     </td>
   </tr>
 <% end %>
+<% unless shipment.tracking.present? %>
+  <tr>
+    <% @shipment = shipment %>
+    <%= form_with(url: spree.update_package_admin_shipment_path(:id=>shipment.id), method: "put",local: true) do %>
+    <td colspan="5">
+    Box:
+        <%= collection_select :shipment, :package_id, Package.all, :id, :name, {}, { class: 'form-control', required: true } %>
+        
+    </td>
+    <td colspan="1" class="text-center">
+    <%= button_tag(class:'btn btn-success btn-sm') do %>
+      <%= content_tag(:span, "",  class: "icon icon-refresh") %>
+      <%= content_tag(:span, "Update", class: 'text') %>
+    <% end %>
+    </td>
+    <% end %>
+  </tr>
+<% end %>
 
 <tr class="show-method total">
   <% if rate = shipment.selected_shipping_rate %>
